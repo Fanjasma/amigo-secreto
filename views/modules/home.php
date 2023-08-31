@@ -9,6 +9,14 @@
 <body>
         
     <h1>PÁGINA PRINCIPAL/LISTAGEM DE PESSOAS</h1>
+
+    <h2>Pesquisa de Pessoas</h2>
+    
+    <form method="post" action="/">
+        <input type="text" id="pesquisa" name="pesquisa" placeholder="Digite um nome ou email">
+        
+        <button type="submit">Pesquisar</button>
+    </form>
     
     <table>
         <tr>

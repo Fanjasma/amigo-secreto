@@ -49,8 +49,14 @@ class GerenciaDados
         include 'DAO/PessoaDAO.php';
         $dao = new PessoaDAO();
 
-        $pessoa = $dao->selectByID($id);
+        return $dao->selectByID($id);
+    }
 
-        return $pessoa;
+    public static function getLinhasDePessoaPorNomeOuEmail(string $pesquisa)
+    {
+        include 'DAO/PessoaDAO.php';
+        $dao = new PessoaDAO();
+
+        return $dao->selectByNameAndEmail($pesquisa);
     }
 }

@@ -6,7 +6,14 @@ class PessoaController
     {
         include 'models/PessoaModel.php';
 
-        $pessoas = GerenciaDados::getLinhasDePessoa();
+        $pesquisa = isset($_POST['pesquisa']) ? $_POST['pesquisa'] : '';
+
+        if(empty($pesquisa))
+            // Mostra todas as pessoas no banco de dados
+            $pessoas = GerenciaDados::getLinhasDePessoa();
+        else
+            // Mostra as pessoas que têm nome ou email iguais à pesquisa
+            $pessoas = GerenciaDados::getLinhasDePessoaPorNomeOuEmail($pesquisa);
 
         include 'views/modules/home.php';
     }
@@ -62,4 +69,6 @@ class PessoaController
 
         header("Location: /");
     }
+
+
 }

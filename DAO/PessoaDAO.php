@@ -61,6 +61,19 @@
                 return null;
             return $pessoa;
         }
+
+        public function selectByNameAndEmail($pesquisa)
+        {
+            // Aplicar esse método de bindValue para os outros metodos da classe?
+            $sql = "SELECT * FROM pessoa WHERE nome LIKE :termo OR email LIKE :termo";
+
+            $stmt = $this->conexao->prepare($sql);
+            $pesquisa = '%' . $pesquisa . '%';
+            $stmt->bindValue(':termo', $pesquisa);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_CLASS, 'PessoaModel');
+        }
     }
     
 ?>
