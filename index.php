@@ -17,6 +17,10 @@
             PessoaController::save();
         break;
 
+        case '/delete':
+            PessoaController::delete();
+        break;
+
         default:
             echo 'Erro 404';
         break;

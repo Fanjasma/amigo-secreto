@@ -12,14 +12,17 @@
         <legend>Cadastro de Pessoa</legend>
 
         <form method="post" action="/form/save">
+            <input type="hidden" name="id" value="<?= isset($pessoa) ? $pessoa->id : '' ?>">
+            
             <label for="nome">Nome:</label>
-            <input id="nome" name="nome" type="text">
+            <input id="nome" name="nome" value="<?= isset($pessoa) ? $pessoa->nome : '' ?>" type="text" required>
 
             <label for="email">E-mail:</label>
-            <input id="email" name="email" type="email">
+            <input id="email" name="email" value="<?= isset($pessoa) ? $pessoa->email : '' ?>" type="email" required>
 
             <button type="submit">Salvar</button>
         </form>
+
     </fieldset>
     
 </body>

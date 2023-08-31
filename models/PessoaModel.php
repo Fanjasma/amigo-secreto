@@ -3,32 +3,54 @@ class PessoaModel
 {
     public $id, $nome, $email;
 
-    public $rows;
-
-    public function save()
+    public function inicializarPessoa($dados)
     {
-        include 'DAO/PessoaDAO.php';
-
-        $dao = new PessoaDAO();
-
-        $dao->insert($this);
+        $this->nome = $dados['nome'] ?? null;
+        $this->email = $dados['email'] ?? null;
     }
-
-    public function initializePessoa($data) 
-    {
-        $this->nome = $data['nome'] ?? null;
-        $this->email = $data['email'] ?? null;
-    }
-
-    public function getAllRows()
-    {
-        include 'DAO/PessoaDAO.php';
-
-        $dao = new PessoaDAO();
-
-        $this->rows = $dao->select();
-    }
-    
 }
 
-?>
+class GerenciaDados
+{
+    public static function salvarPessoa(PessoaModel $pessoa)
+    {
+        include 'DAO/PessoaDAO.php';
+        $dao = new PessoaDAO();
+
+        $dao->insert($pessoa);
+    }
+
+    public static function atualizarPessoa(PessoaModel $pessoa)
+    {
+        include_once 'DAO/PessoaDAO.php';
+        $dao = new PessoaDAO();
+
+        $dao->update($pessoa);
+    }
+
+    public static function deletarPessoa(int $id)
+    {
+        include_once 'DAO/PessoaDAO.php';
+        $dao = new PessoaDAO();
+
+        $dao->delete($id);
+    }
+
+    public static function getLinhasDePessoa()
+    {
+        include 'DAO/PessoaDAO.php';
+        $dao = new PessoaDAO();
+
+        return $dao->select();
+    }
+
+    public static function getPessoaPorID(int $id)
+    {
+        include 'DAO/PessoaDAO.php';
+        $dao = new PessoaDAO();
+
+        $pessoa = $dao->selectByID($id);
+
+        return $pessoa;
+    }
+}

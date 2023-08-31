@@ -25,7 +25,6 @@
             $stmt->bindValue(1, $model->nome);
             $stmt->bindValue(2, $model->email);
             $stmt->bindValue(3, $model->id);
-
             $stmt->execute();
         }
 
@@ -35,15 +34,32 @@
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute();
 
+            //Tentar depois com fetchObject?
             return $stmt->fetchAll(PDO::FETCH_CLASS);
         }
         
         public function delete(int $id){
-            $sql = "DELETE FROM pessoa where id = ?";
+            $sql = "DELETE FROM pessoa WHERE id = ?";
 
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(1, $id);
             $stmt->execute();
+        }
+
+        public function selectByID(int $id){
+            include_once 'models/PessoaModel.php';
+
+            $sql = "SELECT * FROM pessoa where id = ?";
+
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
+
+            $pessoa = $stmt->fetchObject("PessoaModel");
+
+            if(!$pessoa) 
+                return null;
+            return $pessoa;
         }
     }
     
