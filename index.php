@@ -6,7 +6,7 @@
     switch($url)
     {
         case '/':
-            PessoaController::index();
+            PessoaController::home();
         break;
 
         case '/form':
@@ -19,6 +19,10 @@
 
         case '/delete':
             PessoaController::delete();
+        break;
+
+        case '/sorteio':
+            PessoaController::sorteio();
         break;
 
         default:

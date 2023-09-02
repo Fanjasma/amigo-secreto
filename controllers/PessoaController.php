@@ -2,39 +2,43 @@
 
 class PessoaController
 {
-    public static function index()
+    public static function home()
     {
-        include 'models/PessoaModel.php';
+        include 'models/PessoaDAO.php';
+
+        $dao = new PessoaDAO();
 
         $pesquisa = isset($_POST['pesquisa']) ? $_POST['pesquisa'] : '';
 
-        if(empty($pesquisa))
+        if (empty($pesquisa))
             // Mostra todas as pessoas no banco de dados
-            $pessoas = GerenciaDados::getLinhasDePessoa();
+            $pessoas = $dao->getLinhasDePessoa();
         else
             // Mostra as pessoas que têm nome ou email iguais à pesquisa
-            $pessoas = GerenciaDados::getLinhasDePessoaPorNomeOuEmail($pesquisa);
+            $pessoas = $dao->getLinhasDePessoaPorNomeOuEmail($pesquisa);
 
         include 'views/modules/home.php';
     }
 
     public static function form()
     {
-        include 'models/PessoaModel.php';
+        include 'models/PessoaDAO.php';
 
-        if(isset($_GET['id']))
-        {
+        $dao = new PessoaDAO();
+
+        if (isset($_GET['id'])) {
             $id = (int) $_GET['id'];
-            $pessoa = GerenciaDados::getPessoaPorID($id);
+            $pessoa = $dao->getPessoaPorID($id);
         }
-        
+
         include 'views/modules/form.php';
     }
 
-    // NOTA: refletir se algumas operações aqui não poderiam estar na camada model
     public static function save()
     {
-        include 'models/PessoaModel.php';
+        include 'models/PessoaDAO.php';
+
+        $dao = new PessoaDAO();
 
         $dados = [
             'nome' => $_POST['nome'],
@@ -45,17 +49,31 @@ class PessoaController
         if (!empty($_POST['id'])) {
             // Atualização de pessoa existente
             $id = (int) $_POST['id'];
-            $pessoaExistente = GerenciaDados::getPessoaPorID($id);
-            
+            $pessoaExistente = $dao->getPessoaPorID($id);
+
             if ($pessoaExistente) {
+                if ($dados['email'] !== $pessoaExistente->email) {
+                    // Verifique se o novo email já existe no banco de dados
+                    $emailExistente = $dao->getPessoaPorEmail($dados['email']);
+
+                    if ($emailExistente) {
+                        echo "O email já está em uso por outra pessoa.";
+                        return;
+                    }
+                }
                 $pessoaExistente->inicializarPessoa($dados);
-                GerenciaDados::atualizarPessoa($pessoaExistente);
+                $dao->atualizarPessoa($pessoaExistente);
             }
         } else {
-            // Inserção de nova pessoa
+            $emailExistente = $dao->getPessoaPorEmail($dados['email']);
+
+            if ($emailExistente) {
+                echo "O email já está em uso por outra pessoa.";
+                return;
+            }
             $novaPessoa = new PessoaModel();
             $novaPessoa->inicializarPessoa($dados);
-            GerenciaDados::salvarPessoa($novaPessoa);
+            $dao->salvarPessoa($novaPessoa);
         }
 
         header("Location: /");
@@ -63,12 +81,31 @@ class PessoaController
 
     public static function delete()
     {
-        include 'models/PessoaModel.php';
+        include 'models/PessoaDAO.php';
 
-        GerenciaDados::deletarPessoa((int)$_GET['id']);
+        $dao = new PessoaDAO();
+
+        $dao->deletarPessoa((int)$_GET['id']);
 
         header("Location: /");
     }
 
+    public static function sorteio() //Controller a parte pra isso?
+    {
+        include 'models/PessoaDAO.php';
+        
+        $dao = new PessoaDAO();
 
+        $pessoas = $dao->getLinhasDePessoa();
+        $qntdPessoas = count($pessoas);
+
+        shuffle($pessoas);
+
+        for ($i = 0; $i < $qntdPessoas; $i++) {
+            $primeiraPessoa = $pessoas[$i]->nome;
+            $segundaPessoa = ($i == $qntdPessoas - 1) ? $pessoas[0]->nome : $pessoas[$i + 1]->nome;
+
+            echo $primeiraPessoa . ' saiu com ' . $segundaPessoa . ' 🎁 ';
+        }
+    }
 }
