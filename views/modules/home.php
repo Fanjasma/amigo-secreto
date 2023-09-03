@@ -26,7 +26,7 @@
                         <a class="nav-link" href="/form"> Cadastrar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sortear</a>
+                        <a class="nav-link" href="/sorteio">Sorteio</a>
                     </li>
                 </ul>
             </div>
@@ -59,13 +59,6 @@
                         <form class="input-group" method="post" action="/">
                             <input class="form-control" type="search" id="pesquisa" name="pesquisa" placeholder="Digite um nome ou email">
                             <button type="submit" class="btn btn-primary">Pesquisar</button>
-                        </form>
-                    </div>
-
-                    <div class="container-fluid mt-3 mb-2">
-                        <form class="input-grou" method="post" action="/">
-                            <button type="submit" class="btn btn-outline-primary">Cadastrar Pessoa</button>
-                            <button type="submit" class="btn btn-outline-primary">Realizar Sorteio</button>
                         </form>
                     </div>
 

@@ -23,10 +23,10 @@
                         <a class="nav-link" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/form"> Cadastrar</a>
+                        <a class="nav-link active" href="/form">Cadastrar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sortear</a>
+                        <a class="nav-link" href="/sorteio">Sorteio</a>
                     </li>
                 </ul>
             </div>

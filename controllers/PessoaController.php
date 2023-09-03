@@ -17,8 +17,8 @@ class PessoaController
                 $emailExistente = $dao->getPessoaPorEmail($dados['email']);
 
                 if ($emailExistente) {
-                    echo "O email já está em uso por outra pessoa.";
-                    return;
+                    //O email já está em uso por outra pessoa.
+                    return false;
                 }
             }
             $pessoaExistente->inicializarPessoa($dados);
@@ -36,8 +36,8 @@ class PessoaController
         $emailExistente = $dao->getPessoaPorEmail($dados['email']);
 
         if ($emailExistente) {
-            echo "O email já está em uso por outra pessoa.";
-            return;
+            //O email já está em uso por outra pessoa.
+            return false ;
         }
 
         $novaPessoa = new PessoaModel();
@@ -163,7 +163,9 @@ class PessoaController
             $primeiraPessoa = $pessoas[$i]->nome;
             $segundaPessoa = ($i == $qntdPessoas - 1) ? $pessoas[0]->nome : $pessoas[$i + 1]->nome;
 
-            echo $primeiraPessoa . ' saiu com ' . $segundaPessoa . ' 🎁 ';
+            $resultadoSorteio[$i] = $primeiraPessoa . ' saiu com ' . $segundaPessoa . ' 🎁 ';
         }
+
+        include 'views/modules/sorteio.php';
     }
 }
