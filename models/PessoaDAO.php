@@ -31,7 +31,7 @@ class PessoaDAO
         return $stmt->execute();
     }
 
-    public function deletarPessoa(int $id) //trocar de nome para deletarPessoaPorID?
+    public function deletarPessoa(int $id) 
     {
         $sql = "DELETE FROM pessoa WHERE id = ?";
 
@@ -40,7 +40,7 @@ class PessoaDAO
         return $stmt->execute();
     }
 
-    public function getLinhasDePessoa()
+    public function obterTodasAsPessoas()
     {
         $sql = "SELECT * FROM pessoa";
 
@@ -51,7 +51,7 @@ class PessoaDAO
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
-    public function getPessoaPorID(int $id)
+    public function obterPessoaPorID(int $id)
     {
         include_once 'models/PessoaModel.php';
 
@@ -68,7 +68,7 @@ class PessoaDAO
         return $pessoa;
     }
 
-    public function getPessoaPorEmail(string $email)
+    public function obterPessoaPorEmail(string $email)
     {
         include_once 'models/PessoaModel.php';
 
@@ -85,7 +85,7 @@ class PessoaDAO
         return $pessoa;
     }
 
-    public function getLinhasDePessoaPorNomeOuEmail(string $pesquisa)
+    public function obterPessoasPorNomeOuEmail(string $pesquisa)
     {
         include_once 'models/PessoaModel.php';
 

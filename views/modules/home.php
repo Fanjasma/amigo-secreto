@@ -38,12 +38,10 @@
     session_start();
     if (isset($_SESSION['status'])) {
     ?>
-
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <?php echo $_SESSION['status'] ?>.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
     <?php
     }
     unset($_SESSION['status']);
@@ -85,7 +83,6 @@
                                             Deletar
                                         </button>
                                     </td>
-                                    <!-- <td> <a href="/delete?id=<?= $item->id ?>">X</a></td> -->
                                 </tr>
                             <?php endforeach ?>
                         </table>
@@ -110,7 +107,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                    <a href="/delete?id=<?= $item->id ?>">
+                    <a href="/deletar?id=<?= $item->id ?>">
                         <button type="button" class="btn btn-danger">Deletar</button>
                     </a>
                 </div>

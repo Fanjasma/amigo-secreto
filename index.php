@@ -1,5 +1,6 @@
 <?php
     include 'controllers/PessoaController.php';
+    include 'controllers/SorteioController.php';
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -13,16 +14,16 @@
             PessoaController::form();
         break;
 
-        case '/form/save':
-            PessoaController::save();
+        case '/form/salvar':
+            PessoaController::salvar();
         break;
 
-        case '/delete':
-            PessoaController::delete();
+        case '/deletar':
+            PessoaController::deletar();
         break;
 
         case '/sorteio':
-            PessoaController::sorteio();
+            SorteioController::sorteio();
         break;
 
         default:

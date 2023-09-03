@@ -9,22 +9,25 @@ class PessoaController
         $dao = new PessoaDAO();
 
         $id = (int) $_GET['id'];
-        $pessoaExistente = $dao->getPessoaPorID($id);
+        $pessoaExistente = $dao->obterPessoaPorID($id);
 
         if ($pessoaExistente) {
             if ($dados['email'] !== $pessoaExistente->email) {
                 // Verifique se o novo email já existe no banco de dados
-                $emailExistente = $dao->getPessoaPorEmail($dados['email']);
+                $emailExistente = $dao->obterPessoaPorEmail($dados['email']);
 
                 if ($emailExistente) {
-                    //O email já está em uso por outra pessoa.
-                    return false;
+                    $_SESSION['status'] = "ERRO! Este endereço de e-mail já foi cadastrado.";
+                    header("Location: /form");
+                    exit;
                 }
             }
             $pessoaExistente->inicializarPessoa($dados);
 
             return $dao->atualizarPessoa($pessoaExistente);
         }
+        // Retorna falso se não existir a pessoa procurada
+        return false;
     }
 
     private static function criarNovaPessoa($dados)
@@ -33,11 +36,13 @@ class PessoaController
 
         $dao = new PessoaDAO();
 
-        $emailExistente = $dao->getPessoaPorEmail($dados['email']);
+        $emailExistente = $dao->obterPessoaPorEmail($dados['email']);
 
+        // Verifica se o email já existe no banco de dados
         if ($emailExistente) {
-            //O email já está em uso por outra pessoa.
-            return false ;
+            $_SESSION['status'] = "ERRO! Este endereço de e-mail já foi cadastrado.";
+            header("Location: /form");
+            exit;
         }
 
         $novaPessoa = new PessoaModel();
@@ -56,10 +61,10 @@ class PessoaController
 
         if (empty($pesquisa))
             // Mostra todas as pessoas no banco de dados
-            $pessoas = $dao->getLinhasDePessoa();
+            $pessoas = $dao->obterTodasAsPessoas();
         else
             // Mostra as pessoas que têm nome ou email iguais à pesquisa
-            $pessoas = $dao->getLinhasDePessoaPorNomeOuEmail($pesquisa);
+            $pessoas = $dao->obterPessoasPorNomeOuEmail($pesquisa);
 
         include 'views/modules/home.php';
     }
@@ -75,7 +80,7 @@ class PessoaController
         $nomeForm = $emailForm = $idForm = '';
 
         // Se há um 'id' na URL e se este id existe no banco de dados... 
-        if (isset($_GET['id']) && ($pessoa = $dao->getPessoaPorID((int)$_GET['id']))) {
+        if (isset($_GET['id']) && ($pessoa = $dao->obterPessoaPorID((int)$_GET['id']))) {
             $nomeForm = $pessoa->nome;
             $emailForm = $pessoa->email;
             $idForm = '?id=' . $pessoa->id;
@@ -91,24 +96,27 @@ class PessoaController
         include 'views/modules/form.php';
     }
 
-    public static function save()
+    public static function salvar()
     {
         session_start();
 
         $_SESSION['dados_formulario'] = $_POST;
 
+        // Verifica se há dados para inserir ou atualizar
         if (!isset($_POST['nome']) || !isset($_POST['email'])) {
-            $_SESSION['status'] = "ERRO! Não foram encontrados dados para inserir/atualizar";
+            $_SESSION['status'] = "ERRO! Não foram encontrados dados para inserir/atualizar.";
             header("Location: /");
             exit;
         }
 
+        // Verifica se algum campo do formulário não foi preenchido
         if (empty($_POST['nome']) || empty($_POST['email'])) {
             $_SESSION['status'] = "ERRO! Todos os campos são obrigatórios.";
             header("Location: /form");
             exit;
         }
 
+        // Verifica se o email é válido
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $_SESSION['status'] = "ERRO! O endereço de email não é válido.";
             header("Location: /form");
@@ -128,7 +136,7 @@ class PessoaController
             $resultado = PessoaController::criarNovaPessoa($dados);
         }
 
-        // Tratamento de exceção
+        // Verifica se a operação de inserção/atualização teve êxito
         if ($resultado)
             $_SESSION['status'] = "Dados inseridos com sucesso.";
         else
@@ -137,7 +145,7 @@ class PessoaController
         header("Location: /");
     }
 
-    public static function delete()
+    public static function deletar()
     {
         include 'models/PessoaDAO.php';
 
@@ -148,24 +156,4 @@ class PessoaController
         header("Location: /");
     }
 
-    public static function sorteio() //Controller a parte pra isso?
-    {
-        include 'models/PessoaDAO.php';
-
-        $dao = new PessoaDAO();
-
-        $pessoas = $dao->getLinhasDePessoa();
-        $qntdPessoas = count($pessoas);
-
-        shuffle($pessoas);
-
-        for ($i = 0; $i < $qntdPessoas; $i++) {
-            $primeiraPessoa = $pessoas[$i]->nome;
-            $segundaPessoa = ($i == $qntdPessoas - 1) ? $pessoas[0]->nome : $pessoas[$i + 1]->nome;
-
-            $resultadoSorteio[$i] = $primeiraPessoa . ' saiu com ' . $segundaPessoa . ' 🎁 ';
-        }
-
-        include 'views/modules/sorteio.php';
-    }
 }

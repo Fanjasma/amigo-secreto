@@ -56,7 +56,7 @@
                 <div class="card-body">
 
                     <fieldset>
-                        <form method="post" action="/form/save<?= $idForm ?>">
+                        <form method="post" action="/form/salvar<?= $idForm ?>">
                             <div class="mb-3">
                                 <label for="nome" class="form-label">Nome:</label>
                                 <input type="nome" name="nome" class="form-control" id="nome" value="<?= $nomeForm ?>" type="email">
