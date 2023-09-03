@@ -17,7 +17,7 @@ class PessoaDAO
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $pessoa->nome);
         $stmt->bindValue(2, $pessoa->email);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function atualizarPessoa(PessoaModel $pessoa)
@@ -28,7 +28,7 @@ class PessoaDAO
         $stmt->bindValue(1, $pessoa->nome);
         $stmt->bindValue(2, $pessoa->email);
         $stmt->bindValue(3, $pessoa->id);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function deletarPessoa(int $id) //trocar de nome para deletarPessoaPorID?
@@ -37,7 +37,7 @@ class PessoaDAO
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $id);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function getLinhasDePessoa()
