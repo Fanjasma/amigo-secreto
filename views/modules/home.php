@@ -10,6 +10,29 @@
 
 <body>
 
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Amigo Secreto</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/form"> Cadastrar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sortear</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Alertas -->
     <?php
     session_start();
@@ -26,32 +49,10 @@
     unset($_SESSION['status']);
     ?>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Amigo Secreto</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/form"> Cadastrar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sortear</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
 
     <div class="container-fluid mt-5">
         <div class="row">
+            <h1 class="text-center mb-3">Sistema do Amigo Secreto</h1>
             <div class="container-fluid card col-md-6 offset-md-3">
                 <div class="card-body">
                     <div class="container-fluid mt-3 mb-2">
@@ -60,7 +61,7 @@
                             <button type="submit" class="btn btn-primary">Pesquisar</button>
                         </form>
                     </div>
-                    
+
                     <div class="container-fluid mt-3 mb-2">
                         <form class="input-grou" method="post" action="/">
                             <button type="submit" class="btn btn-outline-primary">Cadastrar Pessoa</button>
