@@ -2,6 +2,8 @@
 
 Este é um sistema simples para organizar um sorteio de Amigo Secreto. O sistema permite que os participantes se cadastrem e façam o sorteio de forma aleatória.
 
+![Sistema de Amigo Secreto](assets/preview-aplicativo.png)
+
 ## Requisitos
 
 - PHP (versão 7 ou superior)
